@@ -1,6 +1,9 @@
+# 1: transformar a posicao inicial, a orientacao e o tamanho em uma lista com todas as posicoes do navio.
+
 def define_posicoes(linha, coluna, orientacao, tamanho):
 
-    posicoes = []
+    posicoes = [] # lista vazia para receber as posicoes do navio
+
 
     for i in range(tamanho):
 
@@ -12,37 +15,45 @@ def define_posicoes(linha, coluna, orientacao, tamanho):
 
     return posicoes
 
+# 2: adiciona um navio ao dicionario frota.
+
 def preenche_frota(frota, nome_navio, linha, coluna, orientacao, tamanho):
 
-    posicoes = define_posicoes(
+# aqui a variavel posicoes guarda os valores devolvidos pela funcao da questao 1 (define_posicoes)
 
-        linha,
-        coluna,
-        orientacao,
-        tamanho
-    )
+    posicoes = define_posicoes(linha, coluna, orientacao, tamanho)
+# exemplo: define_posicoes vai devolver [ [2,4], [2,5], [2,6] ] e a variavel posicoes vai armazenar esse valor
 
     if nome_navio in frota:
+
+# verifica se o navio esta presente no dicionario frota
+# se estiver, o navio sera adicionado na variavel posicoes
 
         frota[nome_navio].append(posicoes)
 
     else:
-
+# caso contrario, ele cria a chave e adiciona o primeiro navio nela
         frota[nome_navio] = [posicoes]
 
     return frota
 
+# 3: verifica se existe um navio na posicao escolhida
+
 def faz_jogada(tabuleiro, linha, coluna):
 
-    if tabuleiro[linha][coluna] == 1:
+# significado dos simbolos -> 0: posicao vazia / 1: existe um navio / x: o jogador acertou um navio / - : o jogador atirou na agua
 
+    if tabuleiro[linha][coluna] == 1:
+# caso o jogador acerte
         tabuleiro[linha][coluna] = "X"
 
     else:
-
+# caso o jogador erre
         tabuleiro[linha][coluna] = "-"
 
     return tabuleiro
+
+# 4: 
 
 def posiciona_frota(frota):
 
