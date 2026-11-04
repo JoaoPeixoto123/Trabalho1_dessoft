@@ -9,7 +9,7 @@ from funcoes import (
 
 def monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente):
     texto = ""
-    texto += "   0 1 2 3 4 5 6 7 8 9   0 1 2 3 4 5 6 7 8 9\n"
+    texto += "  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9\n"
     texto += "  _____________________ _____________________\n"
 
     for linha in range(len(tabuleiro_jogador)):
@@ -19,14 +19,14 @@ def monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente):
 
         oponente_info = " ".join(
             [
-                str(info) if str(info) in "X-" else "0"
+                info if str(info) in "X-" else "0"
                 for info in tabuleiro_oponente[linha]
             ]
         )
 
         texto += (
-            f"{linha}| {jogador_info} |"
-            f"{linha}| {oponente_info} |\n"
+            f"{linha}| {jogador_info}|"
+            f"{linha}| {oponente_info}|\n"
         )
 
     return texto
