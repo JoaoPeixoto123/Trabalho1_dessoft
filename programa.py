@@ -9,11 +9,19 @@ from funcoes import (
 
 
 # Posicionamento da frota do jogador
+
 frota = {}
 
-nomes = ["porta-avioes", "navio-tanque", "contratorpedeiro", "submarino"]
+nomes = [
+    "porta-aviões",
+    "navio-tanque",
+    "contratorpedeiro",
+    "submarino"
+]
+
 tamanhos = [4, 3, 2, 1]
 quantidades = [1, 2, 3, 4]
+
 
 for i in range(len(nomes)):
     nome = nomes[i]
@@ -24,7 +32,8 @@ for i in range(len(nomes)):
 
         while not valida:
             print(
-                f"Insira as informacoes referentes ao navio {nome} que possui tamanho {tamanho}"
+                f"Insira as informações referentes ao navio "
+                f"{nome} que possui tamanho {tamanho}"
             )
 
             linha = int(input("Linha: "))
@@ -32,42 +41,61 @@ for i in range(len(nomes)):
 
             if nome == "submarino":
                 orientacao = "vertical"
+
             else:
                 escolha = int(
-                    input("Orientacao: [1] Vertical [2] Horizontal ")
+                    input(
+                        "Orientação: "
+                        "[1] Vertical [2] Horizontal >"
+                    )
                 )
 
                 if escolha == 1:
                     orientacao = "vertical"
+
                 else:
                     orientacao = "horizontal"
 
             valida = posicao_valida(
-                frota, linha, coluna, orientacao, tamanho
+                frota,
+                linha,
+                coluna,
+                orientacao,
+                tamanho
             )
 
             if valida:
                 frota = preenche_frota(
-                    frota, nome, linha, coluna, orientacao, tamanho
+                    frota,
+                    nome,
+                    linha,
+                    coluna,
+                    orientacao,
+                    tamanho
                 )
+
             else:
-                print("Esta posicao nao esta valida!")
+                print("Esta posição não está válida!")
 
 
-# Posicionamento padrao da frota do oponente
+# Posicionamento padrão da frota do oponente
+
 frota_oponente = {
-    "porta-avioes": [
+    "porta-aviões": [
         [[9, 1], [9, 2], [9, 3], [9, 4]]
     ],
+
     "navio-tanque": [
         [[6, 0], [6, 1], [6, 2]],
         [[4, 3], [5, 3], [6, 3]]
     ],
+
     "contratorpedeiro": [
         [[1, 6], [1, 7]],
         [[0, 5], [1, 5]],
         [[3, 6], [3, 7]]
     ],
+
     "submarino": [
         [[2, 7]],
         [[0, 6]],
@@ -77,48 +105,91 @@ frota_oponente = {
 }
 
 
-# Criacao dos tabuleiros
+# Criação dos tabuleiros
+
 tabuleiro_jogador = posiciona_frota(frota)
-tabuleiro_oponente = posiciona_frota(frota_oponente)
+
+tabuleiro_oponente = posiciona_frota(
+    frota_oponente
+)
+
+
+# Contagem dos navios inimigos
 
 total_navios = 0
 
 for nome_navio in frota_oponente:
-    total_navios += len(frota_oponente[nome_navio])
+    total_navios += len(
+        frota_oponente[nome_navio]
+    )
 
 
 # Loop principal do jogo
+
 jogando = True
 
 while jogando:
-    print(monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente))
+    print(
+        monta_tabuleiros(
+            tabuleiro_jogador,
+            tabuleiro_oponente
+        )
+    )
 
     posicao_inedita = False
 
     while not posicao_inedita:
-        linha = int(input("Jogador, qual linha deseja atacar? "))
+        linha = int(
+            input("Jogador, qual linha deseja atacar? ")
+        )
 
         while linha < 0 or linha > 9:
-            print("Linha invalida!")
-            linha = int(input("Jogador, qual linha deseja atacar? "))
+            print("Linha inválida!")
 
-        coluna = int(input("Jogador, qual coluna deseja atacar? "))
+            linha = int(
+                input(
+                    "Jogador, qual linha deseja atacar? "
+                )
+            )
+
+        coluna = int(
+            input("Jogador, qual coluna deseja atacar? ")
+        )
 
         while coluna < 0 or coluna > 9:
-            print("Coluna invalida!")
-            coluna = int(input("Jogador, qual coluna deseja atacar? "))
+            print("Coluna inválida!")
+
+            coluna = int(
+                input(
+                    "Jogador, qual coluna deseja atacar? "
+                )
+            )
 
         if tabuleiro_oponente[linha][coluna] in ["X", "-"]:
             print(
-                f"A posicao linha {linha} e coluna {coluna} ja foi informada anteriormente!"
+                f"A posição linha {linha} e coluna {coluna} "
+                "já foi informada anteriormente!"
             )
+
         else:
             posicao_inedita = True
 
     tabuleiro_oponente = faz_jogada(
-        tabuleiro_oponente, linha, coluna
+        tabuleiro_oponente,
+        linha,
+        coluna
     )
 
-    if afundados(frota_oponente, tabuleiro_oponente) == total_navios:
-        print("Parabens! Voce derrubou todos os navios do seu oponente!")
+    if (
+        afundados(
+            frota_oponente,
+            tabuleiro_oponente
+        )
+        == total_navios
+    ):
+        print(
+            "Parabéns! Você derrubou todos os navios "
+            "do seu oponente!"
+        )
+
         jogando = False
